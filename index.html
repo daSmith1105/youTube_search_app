@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>YouTube API search</title>
+        <script
+          src="https://code.jquery.com/jquery-3.2.1.min.js"
+          integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+          crossorigin="anonymous"></script>
+        <link href="main.css" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    </head>
+    <body>
+      <main>
+        <h1>Search for Videos by Keyword</h1>
+          <form action="#" class="js-search-form">
+            <label for="query"></label>
+            <input type="text" class="js-query input" autofocus>
+            <button type="submit" class="submit">Search</button>
+          </form>
+
+          <div class="js-search-results results"></div>
+          <div class="js-controls controls hide">
+          	<button class="js-previous button"><< prev</button>
+          	<button class="js-next button">next >></button>
+          </div>
+          <div class="js-modal modal hide">
+          	<div class="modal-close">CLOSE PLAYER WINDOW</div>
+          	<div class='modal-container'></div>
+          </div>
+      </main>
+      <script src="main.js"></script>
+    </body>
+</html>
