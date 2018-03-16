@@ -12,21 +12,20 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     </head>
     <body>
-      <main>
-        <h1>Search for Videos by Keyword</h1>
+      <main role="main">
+        <h1 role="heading">Search for Videos by Keyword</h1>
           <form action="#" class="js-search-form">
-            <label for="query"></label>
-            <input type="text" class="js-query input" autofocus>
-            <button type="submit" class="submit">Search</button>
+            <input type="text" class="js-query input" aria-label="search input">
+            <button type="submit" class="submit" aria-label="press enter to search">Search</button>
           </form>
-
+            <p id="ariaResults" aria-live="assertive" hidden>There are 6 new results added to the page.</p>
           <div class="js-search-results results"></div>
           <div class="js-controls controls hide">
-          	<button class="js-previous button"><< prev</button>
-          	<button class="js-next button">next >></button>
+          	<button class="js-previous button">previous videos</button>
+          	<button class="js-next button">more videos</button>
           </div>
           <div class="js-modal modal hide">
-          	<div class="modal-close">CLOSE PLAYER WINDOW</div>
+          	<div class="modal-close"><a href="#">CLOSE PLAYER WINDOW</a></div>
           	<div class='modal-container'></div>
           </div>
       </main>

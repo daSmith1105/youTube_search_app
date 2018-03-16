@@ -6,57 +6,39 @@ let currentQuery = '';
 // Rendering to DOM
 
 function renderResult(result) {
+  $('#ariaResults').prop('hidden', false);
   let vid = `${result.id.videoId}`;
   console.log(vid);
   return `
     <div class="thumbnail js-thumbnail">
-      <img src=${result.snippet.thumbnails.medium.url} name=${vid}>
+      <a href="#">
+      <img src=${result.snippet.thumbnails.medium.url} name=${vid} alt=${result.snippet.title}>
       <p>${result.snippet.title}</p>
+      </a>
     </div>
   `;
 }
 
 function renderPlayer(vId) {
   return `
-    <iframe src="https://www.youtube.com/embed/${vId}?autoplay=1" frameborder="0" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/${vId}?autoplay=1" frameborder="0" aria-label="featured video" allowfullscreen></iframe>
     <div class="channelSuggestionContainer">
-    <p class="channelText">More from this Channel</p>
-    <div class="channelSuggestion">
-      <div class="suggestionImg">
-        <img src="https://ak1.picdn.net/shutterstock/videos/22446301/thumb/1.jpg">
-        <div class="infoContainer">
-        <span class="suggestionInfo">Video Suggestion 1 Title and Info</span>
-        </div>
-      </div>
-    </div>
-    <div class="channelSuggestion">
-      <div class="suggestionImg">
-        <img src="https://ak1.picdn.net/shutterstock/videos/22446301/thumb/1.jpg">
-        <div class="infoContainer">
-        <span class="suggestionInfo">Video Suggestion 2 Title and Info</span>
-        </div>
-      </div>
-    </div>
-    <div class="channelSuggestion">
-      <div class="suggestionImg">
-        <img src="https://ak1.picdn.net/shutterstock/videos/22446301/thumb/1.jpg">
-        <div class="infoContainer">
-        <span class="suggestionInfo">Video Suggestion 3 Title and Info</span>
-        </div>
-      </div>
-      <div class="moreSuggestions">
-        <button class="more">More Videos></button>
-      </div>
-    </div>
-  `;
+      <p class="channelText">More from this Channel</p>
+            <div class="moreSuggestions">
+              <button class="more button">Search More Videos</button>
+            </div>
+          </div>`;
 }
 
 function playInLightBox() {
   $(document).on('click', '.thumbnail', function() {
     let currentVid = $(this).find('img').attr('name');
+    $('.js-search-results').addClass('hide');
+    $('.js-controls').removeClass('show');
     $('.js-modal').addClass('show');
     closeModal();
     $('.modal-container').html(renderPlayer(currentVid));
+    $('.js-controls').addClass('show');
   });
 } 
 
@@ -65,6 +47,7 @@ function closeModal() {
   $('iframe').attr('src', ' ');
   $('.js-modal').removeClass('show');
   $('body').removeClass('tint');
+  $('.js-search-results').removeClass('hide');
   });
 }
 
@@ -73,6 +56,9 @@ function displaySearchData(data) {
     nextToken = `${data.nextPageToken}`;
     prevToken = `${data.prevPageToken}`;
   $('.js-search-results').html(results);
+  $('#ariaResults').prop('hidden', false);
+  $('.input').blur();
+  $(document).find('.thumbnail:first').focus();
   $('.js-controls').addClass('show');
   $('.resultHeader').addClass('show');
   watchNext();
@@ -91,6 +77,7 @@ function getDataFromApi(searchTerm, callback) {
 
 
 function watchSubmit() {
+  $('.input').focus();
   $('.js-search-form').submit(event => {
     event.preventDefault();
     const queryTarget = $(event.currentTarget).find('.js-query');
@@ -118,6 +105,7 @@ function getNextFromApi(token, callback) {
 
 function watchNext () {
   $('.js-next').on('click', function() {
+    $('#ariaResults').prop('hidden', true);
     let tokenNext = nextToken;
     getNextFromApi(tokenNext, displaySearchData);
     console.log(currentQuery);
@@ -139,6 +127,7 @@ function getPrevFromApi(token, callback) {
 
 function watchPrevious () {
   $('.js-previous').on('click', function() {
+    $('#ariaResults').prop('hidden', true);
     let tokenPrev = prevToken;
     console.log(tokenPrev);
     getNextFromApi(tokenPrev, displaySearchData);
